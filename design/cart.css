@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #7d8688;
+  color: #333;
+}
+.container {
+  max-width: 420px;
+  margin: 4rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #0ad3da;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  text-align: center;
+
+  /* Add animation */
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05); /* grows slightly */
+  }
+  100% {
+    transform: scale(1); /* back to normal */
+  }
+}
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.nav-right a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.nav-right a:hover {
+  color: aqua;
+}

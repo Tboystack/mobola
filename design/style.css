@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+background-image: url();
+}
+.container { 
+  text-align: center;
+}
+.store-name {
+  font-size: 32px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 0 0 10px;
+}
+.welcome {
+  font-size: 18px;
+  color: #268d78;
+  margin: 0 0 15px;
+}
+
+.address {
+  font-size: 16px;
+  color: #0080ff;
+  margin: 0 0 10px;
+}
+
+.phone {
+  font-size: 16px;
+  color: #ff0628;
+  margin: 0;
+}
+.whatsapp1 , .whatsapp2{ display:inline-block; 
+  background-color:#25D366; 
+  color:white; 
+  padding:10px 20px;
+   border-radius:5px; 
+   text-decoration:none; 
+   font-family:Arial, sans-serif;
+}
