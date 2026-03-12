@@ -99,7 +99,7 @@ nav {
 
 .bottom {
   text-align: center;
-  background-image: url(customer.jpg);
+  background-image: url(/images/customer.jpg);
   background-size: cover;
   background-position: center;
   padding: 3rem 1rem;
