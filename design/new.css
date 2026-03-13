@@ -3,7 +3,58 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
   color: #333;
+  padding-top: 50px;
 }
+
+/* Sticky Navigation Bar */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  background-color: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+}
+
+.nav-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-right a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 8px 14px;
+  background-color: #25d366;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.nav-right a:hover {
+  background-color: #128c7e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-right a:active {
+  transform: translateY(0);
+}
+
 .top {
   background-image: url(/images/top-background.jpg);
   background-size: cover;
@@ -18,6 +69,7 @@ body {
 .logo {
   width: 500px;
 }
+
 .neon, .our {
   color: #fff;
   text-shadow:
@@ -26,23 +78,7 @@ body {
     0 0 20px #0ff,
     0 0 40px #0ff;
 }
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-}
 
-.nav-right a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-}
-
-.nav-right a:hover {
-  color: aqua;
-}
 .whatsapp1 a {
   display: inline-block;
   background-color: #00e932;
@@ -52,11 +88,13 @@ nav {
   text-decoration: none;
   font-weight: bold;
   margin-top: 20px;
+  transition: background-color 0.3s ease;
 }
 
 .whatsapp1 a:hover {
   background-color: #0c0c0c;
 }
+
 .container {
   padding: 2rem;
 }
@@ -97,6 +135,28 @@ nav {
   font-size: 14px;
 }
 
+/* Know More Button for Home Page */
+.know-more-btn {
+  display: inline-block;
+  background-color: #25d366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.know-more-btn:hover {
+  background-color: #128c7e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .bottom {
   text-align: center;
   background-image: url(/images/customer.jpg);
@@ -110,6 +170,7 @@ nav {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
+
 /* Reset */
 body {
   margin: 0;
@@ -185,23 +246,7 @@ body {
 .contact-card i {
   font-size: 1.2rem;
 }
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-}
 
-.nav-right a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-}
-
-.nav-right a:hover {
-  color: aqua;
-}
 footer {
   background-color: #222;     
   color: #fff;                  
@@ -212,6 +257,7 @@ footer {
   width: 100%;       
   box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
 }
+
 footer a {
   color: #ffcc00;              
   text-decoration: none;
@@ -220,28 +266,47 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
 @media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+
+  nav {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .nav-right a {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
   .logo {
     width: 100%;
     max-width: 300px;
   }
+
   .image-item {
     flex: 1 1 100%;
   }
+
   .nav-right {
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
   }
+
   .top h1 {
     font-size: 1.5rem;
   }
+
   .contact-card {
     margin: 2rem auto;
     padding: 1rem;
   }
 }
 
-/* Add to Cart Button Styling */
+/* Add to Cart Button Styling (Only for Shop) */
 .add-to-cart-btn {
   background-color: #25d366;
   color: white;
@@ -259,7 +324,7 @@ footer a:hover {
   background-color: #128c7e;
 }
 
-/* Product Price Styling */
+/* Product Price Styling (Only for Shop) */
 .price {
   font-size: 1.3rem;
   color: #25d366;

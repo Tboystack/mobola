@@ -9,25 +9,56 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  padding-top: 50px;
 }
 
-/* Navigation */
+/* Sticky Navigation */
 nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
   display: flex;
   justify-content: center;
-  gap: 30px;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  background-color: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+}
+
+.nav-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .nav-right a {
   text-decoration: none;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 8px 14px;
+  background-color: #25d366;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .nav-right a:hover {
-  color: aqua;
+  background-color: #128c7e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-right a:active {
+  transform: translateY(0);
 }
 
 /* Product Section */
@@ -89,17 +120,21 @@ nav {
 /* WhatsApp Button */
 .know-more-btn {
   display: inline-block;
-  background-color: #007bff;
+  background-color: #25d366;
   color: white;
   padding: 8px 12px;
-  border-radius: 5px;
+  border-radius: 20px;
   text-decoration: none;
   font-weight: bold;
   margin-top: 10px;
+  transition: all 0.3s ease;
+  font-size: 12px;
 }
 
 .know-more-btn:hover {
-  background-color: #5c614a;
+  background-color: #128c7e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
@@ -122,6 +157,7 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
 .add-to-cart-btn {
   background-color: #25d366;
   color: white;
@@ -286,6 +322,20 @@ footer a:hover {
 
 /* Responsive Cart Modal */
 @media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+
+  nav {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .nav-right a {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
   .cart-modal-content {
     width: 95%;
     margin: 20% auto;

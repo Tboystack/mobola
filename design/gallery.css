@@ -16,24 +16,58 @@
     }
     body{
         background-color: rgb(107, 103, 98);
+        padding-top: 50px;
     }
+    
+    /* Sticky Navigation */
     nav {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      background-color: rgba(0, 0, 0, 0.85);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      flex-wrap: wrap;
+    }
 
-.nav-right a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-}
+    .nav-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-.nav-right a:hover {
-  color: aqua;
-}
+    .nav-right a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 8px 14px;
+      background-color: #25d366;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .nav-right a:hover {
+      background-color: #128c7e;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-right a:active {
+      transform: translateY(0);
+    }
+
 footer {
   background-color: #222;     
   color: #fff;                  
@@ -216,6 +250,20 @@ footer a:hover {
 
 /* Responsive Cart Modal */
 @media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+
+  nav {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .nav-right a {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
   .cart-modal-content {
     width: 95%;
     margin: 20% auto;
