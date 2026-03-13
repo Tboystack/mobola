@@ -36,6 +36,123 @@
       margin: 2rem auto;
       max-width: 600px;
     }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 2rem auto;
+      padding: 0 20px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+    }
+
+    .category-tab {
+      background-color: #f0f0f0;
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: 2px solid #ccc;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .category-tab:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-tab.active {
+      background-color: #25d366;
+      color: white;
+      border-color: #25d366;
+    }
+
+    /* Coming Soon Modal */
+    .coming-soon-modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.3s ease;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .coming-soon-content {
+      background-color: #fff;
+      padding: 3rem 2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.5s ease;
+      max-width: 500px;
+    }
+
+    .coming-soon-content h2 {
+      font-size: 2rem;
+      color: #25d366;
+      margin-bottom: 1rem;
+    }
+
+    .coming-soon-content p {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .sparkle {
+      font-size: 2rem;
+      display: inline-block;
+      animation: sparkle 1s infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .close-coming-soon {
+      background-color: #25d366;
+      color: white;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .close-coming-soon:hover {
+      background-color: #128c7e;
+    }
   </style>
 </head>
 <body>
@@ -43,9 +160,20 @@
     <a href="/HTML/index.html">Home</a>
     <a href="/HTML/shop.html">Shop</a>
     <a href="/HTML/product.html">Product Gallery</a>
+    <a href="/HTML/gallery.html">Gallery</a>
     <a href="/HTML/contact.html">Contact</a>
     <a href="javascript:void(0);" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
   </nav>
+
+  <!-- Category Tabs -->
+  <div class="category-tabs">
+    <button class="category-tab active" onclick="showAllProducts()">All Products</button>
+    <button class="category-tab" onclick="showComingSoon('Electronics & Devices')">Electronics & Devices</button>
+    <button class="category-tab" onclick="showComingSoon('Snacks')">Snacks</button>
+    <button class="category-tab" onclick="showComingSoon('Kitchen Utensils')">Kitchen Utensils</button>
+    <button class="category-tab" onclick="showComingSoon('Food Stuff')">Food Stuff</button>
+    <button class="category-tab" onclick="showComingSoon('Beverages')">Beverages</button>
+  </div>
 
   <div class="search-container">
     <input type="text" id="product-search" placeholder="Search for products (e.g. Apple iPhone XR)..." onkeyup="filterProducts()">
@@ -159,6 +287,15 @@
     </div>
   </div>
 
+  <!-- Coming Soon Modal -->
+  <div id="coming-soon-modal" class="coming-soon-modal">
+    <div class="coming-soon-content">
+      <h2 id="coming-soon-title">Coming Soon</h2>
+      <p id="coming-soon-text">is coming soon, stay tuned <span class="sparkle">✨</span></p>
+      <button class="close-coming-soon" onclick="closeComingSoon()">Got It!</button>
+    </div>
+  </div>
+
   <!-- Cart Modal -->
   <div id="cart-modal" class="cart-modal">
     <div class="cart-modal-content">
@@ -203,6 +340,44 @@
         noResults.style.display = "block";
       } else {
         noResults.style.display = "none";
+      }
+    }
+
+    function showComingSoon(categoryName) {
+      const modal = document.getElementById('coming-soon-modal');
+      const title = document.getElementById('coming-soon-title');
+      title.textContent = categoryName;
+      modal.style.display = 'flex';
+    }
+
+    function closeComingSoon() {
+      const modal = document.getElementById('coming-soon-modal');
+      modal.style.display = 'none';
+    }
+
+    function showAllProducts() {
+      // Clear search and show all products
+      document.getElementById('product-search').value = '';
+      const productList = document.getElementById('product-list');
+      const items = productList.getElementsByClassName('gallery-item');
+      const noResults = document.getElementById('no-results-message');
+      
+      for (let i = 0; i < items.length; i++) {
+        items[i].style.display = "";
+      }
+      noResults.style.display = "none";
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const comingSoonModal = document.getElementById('coming-soon-modal');
+      const cartModal = document.getElementById('cart-modal');
+      
+      if (event.target === comingSoonModal) {
+        comingSoonModal.style.display = 'none';
+      }
+      if (event.target === cartModal) {
+        cartModal.style.display = 'none';
       }
     }
   </script>
