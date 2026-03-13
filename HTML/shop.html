@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - Mobola Stores</title>
+  <link rel="stylesheet" href="/design/product.css">
+  <style>
+    .search-container {
+      text-align: center;
+      margin: 2rem auto;
+      max-width: 600px;
+      padding: 0 20px;
+    }
+    #product-search {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 25px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    #product-search:focus {
+      border-color: #25d366;
+    }
+    #no-results-message {
+      display: none;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #fff;
+      background-color: rgba(255, 68, 68, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+    <nav class="nav-right">
+    <a href="/HTML/index.html">Home</a>
+    <a href="/HTML/shop.html">Shop</a>
+    <a href="/HTML/product.html">Product Gallery</a>
+    <a href="/HTML/contact.html">Contact</a>
+    <a href="javascript:void(0);" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+
+  <div class="search-container">
+    <input type="text" id="product-search" placeholder="Search for products (e.g. Apple iPhone XR)..." onkeyup="filterProducts()">
+  </div>
+
+  <div id="no-results-message">
+    Product not available or out of stock. Please contact us to check if it is available.
+  </div>
+
+  <!-- Product Section -->
+  <div class="gallery" id="product-list">
+    <div class="gallery-item">
+      <img src="/images/kitchen utensil.jpg" alt="Kitchen Utensil">
+      <p><strong>KITCHEN UTENSIL</strong></p>
+      <p>Sales of all kitchen utensils and household materials.</p>
+      <p class="price">₦5,500</p>
+      <button class="add-to-cart-btn" onclick="addToCart('KITCHEN UTENSIL', 5500)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/snacks.jpg" alt="Snacks">
+      <p><strong>SNACKS</strong></p>
+      <p>Sales of snacks for commercial & personal use.</p>
+      <p class="price">₦3,200</p>
+      <button class="add-to-cart-btn" onclick="addToCart('SNACKS', 3200)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/foodstuff.jpeg" alt="Foodstuff">
+      <p><strong>FOOD STUFF</strong></p>
+      <p>Sales of Foodstuff materials.</p>
+      <p class="price">₦8,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('FOOD STUFF', 8000)">Add to Cart</button>
+    </div>
+
+    <div class="gallery-item">
+      <img src="/images/zobo.jpg" alt="Zobo Drink">
+      <p><strong>Zobo Drink</strong></p>
+      <p>Sales of zobo drink in dozens and litres.</p>
+      <p class="price">₦1,500</p>
+      <button class="add-to-cart-btn" onclick="addToCart('Zobo Drink', 1500)">Add to Cart</button>
+    </div>
+
+    <div class="gallery-item">
+      <img src="/images/fridge.jpg" alt="Refrigerator">
+      <p><strong>REFIGERATOR</strong></p>
+      <p>Sales of all sizes of refrigerators & freezers.</p>
+      <p class="price">₦150,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('REFIGERATOR', 150000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/gas-cooker-white-background_996135-23013.avif" alt="Gas Cooker">
+      <p><strong>Gas/Electric cooker</strong></p>
+      <p>Sales of all sizes of gas/Electric cookers.</p>
+      <p class="price">₦45,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('Gas/Electric cooker', 45000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/pot.jpg" alt="Pot">
+      <p><strong>COOKING UTENSIL</strong></p>
+      <P>Sales of pot, pan, spoons etc.</P>
+      <p class="price">₦12,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('COOKING UTENSIL', 12000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/television.jpg" alt="Television">
+      <p><strong>BASIC/SMART TV</strong></p>
+      <p>sales of all sizes and brands of Television.</p>
+      <p class="price">₦85,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('BASIC/SMART TV', 85000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/maxim-hopman-Hin-rzhOdWs-unsplash.jpg" alt="Macbook">
+      <p><strong>APPLE MACBOOK</strong></p>
+      <P>Sales of all version of apple macbook pc.</P>
+      <p class="price">₦450,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('APPLE MACBOOK', 450000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/pc.jpg" alt="PC">
+      <p><strong>WINDOWS PC</strong></p>
+      <p>Sales of all version of Windows pc.</p>
+      <p class="price">₦250,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('WINDOWS PC', 250000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/samsung.jpg" alt="Samsung">
+      <p><strong>ANDROID DEVICES</strong></p>
+      <p>Sales of all Android/Samsung devices.</p>
+      <p class="price">₦120,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('ANDROID DEVICES', 120000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/apple.jpg" alt="Apple">
+      <p><strong>APPLE IPHONE</strong></p>
+      <P>Sales of iphone from the Iphone Xr.</P>
+      <p class="price">₦180,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('APPLE IPHONE', 180000)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/pastry.jpg" alt="Pastry">
+      <p><strong>PASTRIES</strong></p>
+      <p>Sales of all pastries for commercial & personal use.</p>
+      <p class="price">₦2,500</p>
+      <button class="add-to-cart-btn" onclick="addToCart('PASTRIES', 2500)">Add to Cart</button>
+    </div>
+    <div class="gallery-item">
+      <img src="/images/cake.jpg" alt="Cake">
+      <p><strong>CAKES</strong></p>
+      <p>Sales of all sizes of cake for any occasion</p>
+      <p class="price">₦15,000</p>
+      <button class="add-to-cart-btn" onclick="addToCart('CAKES', 15000)">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cart-modal" class="cart-modal">
+    <div class="cart-modal-content">
+      <span class="close-cart" onclick="toggleCart()">&times;</span>
+      <h2>Shopping Cart</h2>
+      <div id="cart-items-container">
+        <p id="empty-cart-message">Your cart is empty</p>
+      </div>
+      <div class="cart-summary">
+        <h3>Total: ₦<span id="cart-total">0</span></h3>
+        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>&copy; 2026 Mobola Stores. All rights reserved.</p></footer>
+
+  <script src="/cart.js"></script>
+  <script>
+    function filterProducts() {
+      const input = document.getElementById('product-search');
+      const filter = input.value.toLowerCase();
+      const productList = document.getElementById('product-list');
+      const items = productList.getElementsByClassName('gallery-item');
+      const noResults = document.getElementById('no-results-message');
+      
+      let visibleCount = 0;
+      
+      for (let i = 0; i < items.length; i++) {
+        const title = items[i].getElementsByTagName('strong')[0].innerText.toLowerCase();
+        const description = items[i].getElementsByTagName('p')[1].innerText.toLowerCase();
+        
+        if (title.includes(filter) || description.includes(filter)) {
+          items[i].style.display = "";
+          visibleCount++;
+        } else {
+          items[i].style.display = "none";
+        }
+      }
+      
+      if (visibleCount === 0) {
+        noResults.style.display = "block";
+      } else {
+        noResults.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

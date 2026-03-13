@@ -4,123 +4,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product</title>
+  <title>Product Gallery - Mobola Stores</title>
   <link rel="stylesheet" href="/design/product.css">
+  <style>
+    .gallery-info {
+      text-align: center;
+      margin: 3rem auto;
+      max-width: 800px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .gallery-info h1 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    .gallery-info p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    .shop-now-btn {
+      display: inline-block;
+      background-color: #25d366;
+      color: white;
+      padding: 15px 40px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    .shop-now-btn:hover {
+      background-color: #128c7e;
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 <body>
     <nav class="nav-right">
     <a href="/HTML/index.html">Home</a>
-    <a href="/HTML/product.html">Product</a>
+    <a href="/HTML/shop.html">Shop</a>
+    <a href="/HTML/product.html">Product Gallery</a>
     <a href="/HTML/gallery.html">Gallery</a>
     <a href="/HTML/contact.html">Contact</a>
     <a href="javascript:void(0);" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
   </nav>
-  <!-- Product Section -->
-  <div class="gallery">
-    <div class="gallery-item">
-      <img src="/images/kitchen utensil.jpg" alt="Kitchen Utensil">
-      <p><strong>KITCHEN UTENSIL</strong></p>
-      <p>Sales of all kitchen utensils and household materials.</p>
-      <p class="price">₦5,500</p>
-      <button class="add-to-cart-btn" onclick="addToCart('KITCHEN UTENSIL', 5500)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/snacks.jpg" alt="Snacks">
-      <p><strong>SNACKS</strong></p>
-      <p>Sales of snacks for commercial & personal use.</p>
-      <p class="price">₦3,200</p>
-      <button class="add-to-cart-btn" onclick="addToCart('SNACKS', 3200)">Add to Cart</button>
-</div>
-    <div class="gallery-item">
-      <img src="/images/foodstuff.jpeg" alt="Foodstuff">
-      <p><strong>FOOD STUFF</strong></p>
-      <p>Sales of Foodstuff materials.</p>
-      <p class="price">₦8,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('FOOD STUFF', 8000)">Add to Cart</button>
-    </div>
 
-    <div class="gallery-item">
-      <img src="/images/zobo.jpg" alt="Zobo Drink">
-      <p><strong>Zobo Drink</strong></p>
-      <p>Sales of zobo drink in dozens and litres.</p>
-      <p class="price">₦1,500</p>
-      <button class="add-to-cart-btn" onclick="addToCart('Zobo Drink', 1500)">Add to Cart</button>
-    </div>
-
-  
-    <div class="gallery-item">
-      <img src="/images/fridge.jpg" alt="Refrigerator">
-      <p><strong>REFIGERATOR</strong></p>
-      <p>Sales of all sizes of refrigerators & freezers.</p>
-      <p class="price">₦150,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('REFIGERATOR', 150000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/gas-cooker-white-background_996135-23013.avif" alt="Gas Cooker">
-      <p><strong>Gas/Electric cooker</strong></p>
-      <p>Sales of all sizes of gas/Electric cookers.</p>
-      <p class="price">₦45,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('Gas/Electric cooker', 45000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/pot.jpg" alt="Pot">
-      <p><strong>COOKING UTENSIL</strong></p>
-      <P>Sales of pot, pan, spoons etc.</P>
-      <p class="price">₦12,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('COOKING UTENSIL', 12000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/television.jpg" alt="Television">
-      <p><strong>BASIC/SMART TV</strong></p>
-      <p>sales of all sizes and brands of Television.</p>
-      <p class="price">₦85,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('BASIC/SMART TV', 85000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/maxim-hopman-Hin-rzhOdWs-unsplash.jpg" alt="Macbook">
-      <p><strong>APPLE MACBOOK</strong></p>
-      <P>Sales of all version of apple macbook pc.</P>
-      <p class="price">₦450,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('APPLE MACBOOK', 450000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/pc.jpg" alt="PC">
-      <p><strong>WINDOWS PC</strong></p>
-      <p>Sales of all version of Windows pc.</p>
-      <p class="price">₦250,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('WINDOWS PC', 250000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/samsung.jpg" alt="Samsung">
-      <p><strong>ANDROID DEVICES</strong></p>
-      <p>Sales of all Android/Samsung devices.</p>
-      <p class="price">₦120,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('ANDROID DEVICES', 120000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/apple.jpg" alt="Apple">
-      <p><strong>APPLE IPHONE</strong></p>
-      <P>Sales of iphone from the Iphone Xr.</P>
-      <p class="price">₦180,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('APPLE IPHONE', 180000)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/pastry.jpg" alt="Pastry">
-      <p><strong>PASTRIES</strong></p>
-      <p>Sales of all pastries for commercial & personal use.</p>
-      <p class="price">₦2,500</p>
-      <button class="add-to-cart-btn" onclick="addToCart('PASTRIES', 2500)">Add to Cart</button>
-    </div>
-    <div class="gallery-item">
-      <img src="/images/cake.jpg" alt="Cake">
-      <p><strong>CAKES</strong></p>
-      <p>Sales of all sizes of cake for any occasion</p>
-      <p class="price">₦15,000</p>
-      <button class="add-to-cart-btn" onclick="addToCart('CAKES', 15000)">Add to Cart</button>
-    </div>
+  <div class="gallery-info">
+    <h1>Product Gallery</h1>
+    <p>Welcome to our product gallery. All our available products have been moved to our new Shop page for a better shopping experience with search functionality.</p>
+    <a href="/HTML/shop.html" class="shop-now-btn">Go to Shop</a>
   </div>
-  <footer>
- <!-- Cart Modal -->
+
+  <!-- Cart Modal -->
   <div id="cart-modal" class="cart-modal">
     <div class="cart-modal-content">
       <span class="close-cart" onclick="toggleCart()">&times;</span>
