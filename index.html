@@ -14,6 +14,9 @@
     <a href="/HTML/gallery.html">Gallery</a>
     <a href="/HTML/contact.html">Contact</a>
     <a href="javascript:void(0);" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
+    <a id="auth-link" href="/HTML/login.html">🔐 Login</a>
+    <a id="account-link" href="/HTML/account.html" style="display: none;">👤 Account</a>
+    <a id="logout-link" href="javascript:void(0);" onclick="logoutUser()" style="display: none;">🚪 Logout</a>
   </nav>
 
   <header class="top">
@@ -109,6 +112,48 @@
 
   <footer><p>&copy; 2026 Mobola Stores. All rights reserved.</p></footer>
 
+  <script>
+    // Check authentication status on page load
+    async function checkAuthStatus() {
+      try {
+        const response = await fetch('/api/auth/me');
+        const data = await response.json();
+        
+        const authLink = document.getElementById('auth-link');
+        const accountLink = document.getElementById('account-link');
+        const logoutLink = document.getElementById('logout-link');
+        
+        if (data.authenticated) {
+          authLink.style.display = 'none';
+          accountLink.style.display = 'inline';
+          logoutLink.style.display = 'inline';
+        } else {
+          authLink.style.display = 'inline';
+          accountLink.style.display = 'none';
+          logoutLink.style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+      }
+    }
+    
+    // Logout user
+    async function logoutUser() {
+      try {
+        const response = await fetch('/api/auth/logout', { method: 'POST' });
+        const data = await response.json();
+        if (data.success) {
+          window.location.href = '/index.html';
+        }
+      } catch (error) {
+        console.error('Error logging out:', error);
+        alert('Error logging out. Please try again.');
+      }
+    }
+    
+    // Check auth status when page loads
+    window.addEventListener('load', checkAuthStatus);
+  </script>
   <script src="/cart.js"></script>
 </body>
 </html>

@@ -127,42 +127,82 @@ window.onclick = function(event) {
   }
 }
 
-// Checkout function - redirect to WhatsApp with order details
-function checkout() {
+// Checkout function - create order through API
+async function checkout() {
   if (cart.length === 0) {
     alert('Your cart is empty!');
     return;
   }
   
-  // Build order message
-  let message = '';
-  
-  let grandTotal = 0;
-  
-  cart.forEach(item => {
-    const itemTotal = item.price * item.quantity;
-    grandTotal += itemTotal;
+  try {
+    // Check if user is authenticated
+    const authResponse = await fetch('/api/auth/me');
+    const authData = await authResponse.json();
     
-    message += `${item.name} - Qty: ${item.quantity} - ₦${itemTotal.toLocaleString()}\n`;
-  });
-  
-  message += `\nTotal: ₦${grandTotal.toLocaleString()}`;
-  
-  // Encode message for WhatsApp URL
-  const encodedMessage = encodeURIComponent(message);
-  
-  // WhatsApp URL with pre-filled message
-  const whatsappURL = `https://wa.me/2348036795122?text=${encodedMessage}`;
-  
-  // Redirect to WhatsApp
-  window.open(whatsappURL, '_blank');
-  
-  // Clear cart after checkout
-  cart = [];
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-  displayCartItems();
-  toggleCart();
+    if (!authData.authenticated) {
+      alert('Please login to checkout. Redirecting to login page...');
+      window.location.href = '/HTML/login.html';
+      return;
+    }
+    
+    // Get delivery details from user
+    const customerName = prompt('Enter your full name:');
+    if (!customerName) return;
+    
+    const customerPhone = prompt('Enter your phone number:');
+    if (!customerPhone) return;
+    
+    const deliveryAddress = prompt('Enter your delivery address:');
+    if (!deliveryAddress) return;
+    
+    const notes = prompt('Any special instructions? (Optional)');
+    
+    // Calculate total
+    let totalAmount = 0;
+    cart.forEach(item => {
+      totalAmount += item.price * item.quantity;
+    });
+    
+    // Create order
+    const orderResponse = await fetch('/api/orders/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        items: cart,
+        totalAmount: totalAmount,
+        customerName: customerName,
+        customerEmail: authData.email,
+        customerPhone: customerPhone,
+        deliveryAddress: deliveryAddress,
+        notes: notes
+      })
+    });
+    
+    const orderData = await orderResponse.json();
+    
+    if (orderResponse.ok) {
+      alert(`Order created successfully!\nOrder Number: ${orderData.orderNumber}\n\nYou will receive an email confirmation shortly.`);
+      
+      // Clear cart
+      cart = [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      displayCartItems();
+      toggleCart();
+      
+      // Redirect to account page
+      setTimeout(() => {
+        window.location.href = '/HTML/account.html';
+      }, 2000);
+    } else {
+      alert('Error creating order: ' + (orderData.error || 'Unknown error'));
+    }
+  } catch (error) {
+    console.error('Checkout error:', error);
+    alert('An error occurred during checkout. Please try again.');
+  }
 }
 
 // Initialize cart count on page load

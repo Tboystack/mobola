@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Mobola Store</title>
+  <link rel="stylesheet" href="/design/new.css">
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-header h1 {
+      color: #25d366;
+      margin: 0;
+    }
+
+    .logout-btn {
+      background-color: #ff4444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #cc0000;
+    }
+
+    .passcode-container {
+      max-width: 400px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .passcode-container h2 {
+      color: #25d366;
+      margin-bottom: 1.5rem;
+    }
+
+    .passcode-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+    }
+
+    .passcode-input:focus {
+      outline: none;
+      border-color: #25d366;
+      box-shadow: 0 0 5px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-unlock {
+      width: 100%;
+      padding: 12px;
+      background-color: #25d366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-unlock:hover {
+      background-color: #128c7e;
+    }
+
+    .error-message {
+      color: #ff4444;
+      background-color: #ffe6e6;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .tab-btn {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #666;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      color: #25d366;
+      border-bottom-color: #25d366;
+    }
+
+    .tab-content {
+      display: none;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .order-card {
+      background: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid #25d366;
+    }
+
+    .order-card h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .order-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .order-details p {
+      margin: 0.5rem 0;
+    }
+
+    .order-details strong {
+      color: #25d366;
+    }
+
+    .order-items {
+      background: white;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .order-items h4 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .order-items ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .order-items li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .order-items li:last-child {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-confirmed {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-failed {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .btn-action {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn-confirm {
+      background-color: #25d366;
+      color: white;
+    }
+
+    .btn-confirm:hover {
+      background-color: #128c7e;
+    }
+
+    .btn-pending {
+      background-color: #ffc107;
+      color: white;
+    }
+
+    .btn-pending:hover {
+      background-color: #e0a800;
+    }
+
+    .btn-fail {
+      background-color: #ff4444;
+      color: white;
+    }
+
+    .btn-fail:hover {
+      background-color: #cc0000;
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .users-table thead {
+      background-color: #25d366;
+      color: white;
+    }
+
+    .users-table th,
+    .users-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .users-table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #25d366;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-right">
+    <a href="/HTML/index.html">Home</a>
+  </nav>
+
+  <!-- Passcode Login -->
+  <div id="passcode-section" class="passcode-container">
+    <h2>🔐 Admin Dashboard</h2>
+    <p>Enter the admin passcode to access</p>
+    <div id="error-message" class="error-message"></div>
+    <input type="password" id="passcode" class="passcode-input" placeholder="Enter passcode" autocomplete="off">
+    <button class="btn-unlock" onclick="unlockAdmin()">Unlock</button>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="admin-section" style="display: none;">
+    <div class="admin-container">
+      <div class="admin-header">
+        <h1>📊 Admin Dashboard</h1>
+        <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('orders')">📦 Orders</button>
+        <button class="tab-btn" onclick="switchTab('users')">👥 Users</button>
+      </div>
+
+      <!-- Orders Tab -->
+      <div id="orders" class="tab-content active">
+        <h2>Order Management</h2>
+        <div id="orders-container" class="loading">
+          <div class="spinner"></div>
+          <p>Loading orders...</p>
+        </div>
+      </div>
+
+      <!-- Users Tab -->
+      <div id="users" class="tab-content">
+        <h2>Registered Users</h2>
+        <div id="users-container" class="loading">
+          <div class="spinner"></div>
+          <p>Loading users...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>&copy; 2026 Mobola Stores. All rights reserved.</p></footer>
+
+  <script>
+    // Check if admin is already authenticated
+    async function checkAdminStatus() {
+      try {
+        const response = await fetch('/api/admin/check');
+        const data = await response.json();
+        if (data.authenticated) {
+          showAdminDashboard();
+          loadOrders();
+          loadUsers();
+        }
+      } catch (error) {
+        console.error('Error checking admin status:', error);
+      }
+    }
+
+    // Unlock admin dashboard with passcode
+    async function unlockAdmin() {
+      const passcode = document.getElementById('passcode').value;
+      const errorDiv = document.getElementById('error-message');
+
+      if (!passcode) {
+        errorDiv.textContent = 'Please enter the passcode';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ passcode })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showAdminDashboard();
+          loadOrders();
+          loadUsers();
+        } else {
+          errorDiv.textContent = data.error || 'Invalid passcode';
+          errorDiv.style.display = 'block';
+        }
+      } catch (error) {
+        errorDiv.textContent = 'An error occurred. Please try again.';
+        errorDiv.style.display = 'block';
+      }
+    }
+
+    // Show admin dashboard
+    function showAdminDashboard() {
+      document.getElementById('passcode-section').style.display = 'none';
+      document.getElementById('admin-section').style.display = 'block';
+    }
+
+    // Switch between tabs
+    function switchTab(tabName) {
+      const tabs = document.querySelectorAll('.tab-content');
+      const buttons = document.querySelectorAll('.tab-btn');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+
+      if (tabName === 'orders') {
+        loadOrders();
+      } else if (tabName === 'users') {
+        loadUsers();
+      }
+    }
+
+    // Load all orders
+    async function loadOrders() {
+      const container = document.getElementById('orders-container');
+      container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading orders...</p></div>';
+
+      try {
+        const response = await fetch('/api/admin/orders');
+        const orders = await response.json();
+
+        if (orders.length === 0) {
+          container.innerHTML = '<p style="text-align: center; color: #666;">No orders yet</p>';
+          return;
+        }
+
+        let html = '';
+        orders.forEach(order => {
+          const statusClass = `status-${order.status}`;
+          html += `
+            <div class="order-card">
+              <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                  <h3>Order #${order.order_number}</h3>
+                  <span class="status-badge ${statusClass}">${order.status.toUpperCase()}</span>
+                </div>
+              </div>
+              <div class="order-details">
+                <p><strong>Customer:</strong> ${order.customer_name}</p>
+                <p><strong>Email:</strong> ${order.customer_email}</p>
+                <p><strong>Phone:</strong> ${order.customer_phone}</p>
+                <p><strong>Total:</strong> ₦${order.total_amount.toLocaleString()}</p>
+              </div>
+              <p><strong>Delivery Address:</strong> ${order.delivery_address}</p>
+              ${order.notes ? `<p><strong>Notes:</strong> ${order.notes}</p>` : ''}
+              <div class="order-items">
+                <h4>Items:</h4>
+                <ul>
+                  ${order.items.map(item => `<li>${item.product_name} x ${item.quantity} @ ₦${item.price.toLocaleString()}</li>`).join('')}
+                </ul>
+              </div>
+              <div class="action-buttons">
+                <button class="btn-action btn-confirm" onclick="updateOrderStatus(${order.id}, 'confirmed')">✓ Confirm</button>
+                <button class="btn-action btn-pending" onclick="updateOrderStatus(${order.id}, 'pending')">⏳ Pending</button>
+                <button class="btn-action btn-fail" onclick="updateOrderStatus(${order.id}, 'failed')">✗ Fail</button>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+      } catch (error) {
+        container.innerHTML = '<p style="color: #ff4444;">Error loading orders</p>';
+        console.error('Error loading orders:', error);
+      }
+    }
+
+    // Update order status
+    async function updateOrderStatus(orderId, status) {
+      try {
+        const response = await fetch(`/api/admin/orders/${orderId}/status`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert('Order status updated! Customer has been notified via email.');
+          loadOrders();
+        } else {
+          alert(data.error || 'Failed to update order status');
+        }
+      } catch (error) {
+        alert('An error occurred');
+        console.error('Error updating order status:', error);
+      }
+    }
+
+    // Load all users
+    async function loadUsers() {
+      const container = document.getElementById('users-container');
+      container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading users...</p></div>';
+
+      try {
+        const response = await fetch('/api/admin/users');
+        const users = await response.json();
+
+        if (users.length === 0) {
+          container.innerHTML = '<p style="text-align: center; color: #666;">No users yet</p>';
+          return;
+        }
+
+        let html = `
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        users.forEach(user => {
+          const joinDate = new Date(user.created_at).toLocaleDateString();
+          html += `
+            <tr>
+              <td>${user.name}</td>
+              <td>${user.email}</td>
+              <td>${user.phone || 'N/A'}</td>
+              <td>${joinDate}</td>
+            </tr>
+          `;
+        });
+
+        html += `
+            </tbody>
+          </table>
+        `;
+
+        container.innerHTML = html;
+      } catch (error) {
+        container.innerHTML = '<p style="color: #ff4444;">Error loading users</p>';
+        console.error('Error loading users:', error);
+      }
+    }
+
+    // Logout admin
+    async function logoutAdmin() {
+      try {
+        await fetch('/api/admin/logout', { method: 'POST' });
+        document.getElementById('passcode-section').style.display = 'block';
+        document.getElementById('admin-section').style.display = 'none';
+        document.getElementById('passcode').value = '';
+      } catch (error) {
+        console.error('Error logging out:', error);
+      }
+    }
+
+    // Check admin status on page load
+    window.addEventListener('load', checkAdminStatus);
+
+    // Allow Enter key to unlock
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && document.getElementById('passcode-section').style.display !== 'none') {
+        unlockAdmin();
+      }
+    });
+  </script>
+</body>
+</html>
