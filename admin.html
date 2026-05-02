@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Mobola Store</title>
-  <link rel="stylesheet" href="/design/new.css">
+  <link rel="stylesheet" href="../design/new.css">
   <style>
     .admin-container {
       max-width: 1200px;
@@ -58,6 +58,13 @@
       margin-bottom: 1.5rem;
     }
 
+    .passcode-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
     .passcode-input {
       width: 100%;
       padding: 12px;
@@ -66,8 +73,22 @@
       font-size: 1.2rem;
       letter-spacing: 2px;
       text-align: center;
-      margin-bottom: 1rem;
       box-sizing: border-box;
+    }
+
+    .toggle-passcode {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #25d366;
+      padding: 5px;
+    }
+
+    .toggle-passcode:hover {
+      color: #128c7e;
     }
 
     .passcode-input:focus {
@@ -306,7 +327,7 @@
 </head>
 <body>
   <nav class="nav-right">
-    <a href="/HTML/index.html">Home</a>
+    <a href="/index.html">Home</a>
   </nav>
 
   <!-- Passcode Login -->
@@ -314,7 +335,10 @@
     <h2>🔐 Admin Dashboard</h2>
     <p>Enter the admin passcode to access</p>
     <div id="error-message" class="error-message"></div>
-    <input type="password" id="passcode" class="passcode-input" placeholder="Enter passcode" autocomplete="off">
+    <div class="passcode-wrapper">
+      <input type="password" id="passcode" class="passcode-input" placeholder="Enter passcode" autocomplete="off">
+      <button type="button" class="toggle-passcode" id="toggle-passcode">👁️</button>
+    </div>
     <button class="btn-unlock" onclick="unlockAdmin()">Unlock</button>
   </div>
 
@@ -354,6 +378,21 @@
   <footer><p>&copy; 2026 Mobola Stores. All rights reserved.</p></footer>
 
   <script>
+    // Toggle passcode visibility
+    const togglePasscodeBtn = document.getElementById('toggle-passcode');
+    const passcodeInput = document.getElementById('passcode');
+
+    togglePasscodeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (passcodeInput.type === 'password') {
+        passcodeInput.type = 'text';
+        togglePasscodeBtn.textContent = '🙈';
+      } else {
+        passcodeInput.type = 'password';
+        togglePasscodeBtn.textContent = '👁️';
+      }
+    });
+
     // Check if admin is already authenticated
     async function checkAdminStatus() {
       try {
@@ -396,11 +435,12 @@
           loadOrders();
           loadUsers();
         } else {
-          errorDiv.textContent = data.error || 'Invalid passcode';
-          errorDiv.style.display = 'block';
+        errorDiv.textContent = data.error || 'Invalid passcode. Please try again.';
+        errorDiv.style.display = 'block';
         }
       } catch (error) {
-        errorDiv.textContent = 'An error occurred. Please try again.';
+        console.error('Admin login error:', error);
+        errorDiv.textContent = 'Connection error. Please check your internet and try again.';
         errorDiv.style.display = 'block';
       }
     }
