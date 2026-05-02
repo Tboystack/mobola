@@ -3,74 +3,542 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mobola Store</title>
-  <link rel="stylesheet" href="/design/new.css">
+  <title>Mobola Store - Premium Products</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: slideInLeft 0.5s ease-out;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    nav .cart-badge {
+      background: #ff6b6b;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Header */
+    .top {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .top .logo {
+      max-width: 100px;
+      margin: 0 auto 1.5rem;
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .top h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .top p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .whatsapp1 a {
+      background: #25d366;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+
+    .whatsapp1 a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .our {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      color: #333;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .image-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .image-item {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .image-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .image-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .image-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .image-item p {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .image-item p:first-of-type {
+      font-weight: bold;
+      color: #667eea;
+      font-size: 1.1rem;
+    }
+
+    .image-item p:last-of-type {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .know-more-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin: 0 1rem 1rem;
+    }
+
+    .know-more-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Why Choose Us Section */
+    .bottom {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-radius: 12px;
+      margin: 3rem 0;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .bottom h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .bottom p {
+      font-size: 1.1rem;
+      margin: 0.8rem 0;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    /* Contact Section */
+    .contact-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin: 3rem 0;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .contact-card h2 {
+      color: #667eea;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .contact-card p {
+      margin: 1rem 0;
+      color: #333;
+    }
+
+    .contact-card ul {
+      list-style: none;
+      margin: 1rem 0;
+    }
+
+    .contact-card ul li {
+      margin: 0.8rem 0;
+    }
+
+    .contact-card a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contact-card a:hover {
+      color: #764ba2;
+      transform: translateX(5px);
+    }
+
+    /* Cart Modal */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .cart-modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 70vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .close-cart {
+      color: #666;
+      float: right;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .close-cart:hover {
+      color: #667eea;
+    }
+
+    .cart-modal-content h2 {
+      color: #667eea;
+      margin-bottom: 1.5rem;
+    }
+
+    .cart-item {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-name {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .cart-item-price {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .cart-summary {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .cart-summary h3 {
+      color: #333;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .checkout-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .checkout-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-prompt {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      color: #856404;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 4rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      nav .nav-links {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+      }
+
+      .top h1 {
+        font-size: 1.8rem;
+      }
+
+      .image-row {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-modal-content {
+        width: 95%;
+        margin: 20% auto;
+      }
+    }
+  </style>
 </head>
 <body>
-  <nav class="nav-right">
-    <a href="/HTML/index.html">Home</a>
-    <a href="/HTML/shop.html">Shop</a>
-    <a href="/HTML/product.html">Product Gallery</a>
-    <a href="/HTML/gallery.html">Gallery</a>
-    <a href="/HTML/contact.html">Contact</a>
-    <a href="javascript:void(0);" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
-    <a id="auth-link" href="/HTML/login.html">🔐 Login</a>
-    <a id="account-link" href="/HTML/account.html" style="display: none;">👤 Account</a>
-    <a id="logout-link" href="javascript:void(0);" onclick="logoutUser()" style="display: none;">🚪 Logout</a>
+  <nav>
+    <a href="/index.html" class="logo">
+      <i class="fas fa-store"></i> Mobola Store
+    </a>
+    <div class="nav-links">
+      <a href="/index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="/HTML/shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
+      <a href="/HTML/contact.html"><i class="fas fa-phone"></i> Contact</a>
+      <a href="javascript:void(0);" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="cart-count">0</span>
+      </a>
+      <a id="auth-link" href="/HTML/login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a id="account-link" href="/HTML/account.html" style="display: none;"><i class="fas fa-user"></i> Account</a>
+      <a id="logout-link" href="javascript:void(0);" onclick="logoutUser()" style="display: none;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
   </nav>
 
   <header class="top">
     <img src="/images/logo.png" alt="logo" class="logo">
-    <h1 class="neon">Your one-stop shop for kitchen and daily provisions</h1>
-    <p>Quality products at affordable price 💵</p>
+    <h1>Your one-stop shop for kitchen and daily provisions</h1>
+    <p>Quality products at affordable prices 💵</p>
     <div class="whatsapp1">
       <a href="https://wa.me/2348036795122?text=Hello%20I%20saw%20your%20website%20and%20want%20to%20know%20more" target="_blank">
-        💬 Chat with us on WhatsApp
+        <i class="fas fa-comments"></i> Chat with us on WhatsApp
       </a>
     </div>
   </header>
 
   <main class="container">
-    <h1 class="our">Our products 👇</h1>
+    <h1 class="our">Our Products</h1>
     <div class="image-row">
       <div class="image-item">
         <img src="/images/kitchen utensil.jpg" alt="kitchen">
         <p><strong>KITCHEN UTENSIL</strong></p>
         <p>Pots, frypans, spoons, gas cookers etc</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20kitchen%20utensils%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More About Products</a>
+        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20kitchen%20utensils%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
       </div>
       <div class="image-item">
         <img src="/images/snacks.jpg" alt="snacks">
         <p><strong>SNACKS</strong></p>
-        <p>Cookies, cakes, soft drinks, pastries, wine.</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20snacks%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More About Products</a>
+        <p>Cookies, cakes, soft drinks, pastries, wine</p>
+        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20snacks%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
       </div>
       <div class="image-item">
         <img src="/images/foodstuff.jpeg" alt="foodstuff">
         <p><strong>FOOD STUFF</strong></p>
-        <p>Rice, beans, garri, vegetable & palm oil, spices.</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20food%20stuff%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More About Products</a>
+        <p>Rice, beans, garri, vegetable & palm oil, spices</p>
+        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20food%20stuff%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
       </div>
       <div class="image-item">
         <img src="/images/zobo.jpg" alt="provision">
         <p><strong>Zobo Drink</strong></p>
         <p>Sweet chilled zobo drink 🍷</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20zobo%20drink%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More About Products</a>
+        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20zobo%20drink%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
       </div>
     </div>
   </main>
 
   <section class="bottom">
-    <h1>Why choose us</h1>
-    <p>✅Affordable prices</p>
-    <p>✅Quality products</p>
-    <p>✅fast response</p>
-    <p>✅Delivers nationwide</p>
-    <p>✅Friendly customer service</p>
+    <h1>Why Choose Us</h1>
+    <p><i class="fas fa-check-circle"></i> Affordable prices</p>
+    <p><i class="fas fa-check-circle"></i> Quality products</p>
+    <p><i class="fas fa-check-circle"></i> Fast response</p>
+    <p><i class="fas fa-check-circle"></i> Delivers nationwide</p>
+    <p><i class="fas fa-check-circle"></i> Friendly customer service</p>
   </section>
 
   <section class="contact-card">
-    <h2>Contact Us</h2>
+    <h2><i class="fas fa-map-marker-alt"></i> Contact Us</h2>
     <p><strong>Address:</strong> Onaselu, Gberigbe, Ikorodu, Lagos</p>
     
     <p><strong>Phone:</strong></p>
@@ -89,7 +557,7 @@
     
     <p><strong>Email:</strong></p>
     <p>
-      <a class="email-link" href="https://mail.google.com/mail/?view=cm&fs=1&to=mobolakitchenutensils@gmail.com" target="_blank">
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mobolakitchenutensils@gmail.com" target="_blank">
         <i class="fas fa-envelope"></i> mobolakitchenutensils@gmail.com
       </a>
     </p>
@@ -99,13 +567,16 @@
   <div id="cart-modal" class="cart-modal">
     <div class="cart-modal-content">
       <span class="close-cart" onclick="toggleCart()">&times;</span>
-      <h2>Shopping Cart</h2>
+      <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
+      <div id="login-prompt" class="login-prompt" style="display: none;">
+        <i class="fas fa-info-circle"></i> Please <a href="/HTML/login.html" style="color: #856404; font-weight: bold;">login</a> to add items to cart
+      </div>
       <div id="cart-items-container">
-        <p id="empty-cart-message">Your cart is empty</p>
+        <p id="empty-cart-message" style="text-align: center; color: #666;">Your cart is empty</p>
       </div>
       <div class="cart-summary">
         <h3>Total: ₦<span id="cart-total">0</span></h3>
-        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        <button class="checkout-btn" id="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
       </div>
     </div>
   </div>
@@ -125,12 +596,14 @@
         
         if (data.authenticated) {
           authLink.style.display = 'none';
-          accountLink.style.display = 'inline';
-          logoutLink.style.display = 'inline';
+          accountLink.style.display = 'inline-flex';
+          logoutLink.style.display = 'inline-flex';
+          window.isAuthenticated = true;
         } else {
-          authLink.style.display = 'inline';
+          authLink.style.display = 'inline-flex';
           accountLink.style.display = 'none';
           logoutLink.style.display = 'none';
+          window.isAuthenticated = false;
         }
       } catch (error) {
         console.error('Error checking auth status:', error);

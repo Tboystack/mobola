@@ -1,59 +1,83 @@
 // Shopping Cart System
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Add item to cart
-function addToCart(productName, price) {
-  const quantity = prompt(`How many ${productName} would you like to add?`, '1');
-  
-  if (quantity === null) return; // User cancelled
-  
-  const qty = parseInt(quantity);
-  
-  if (isNaN(qty) || qty <= 0) {
-    alert('Please enter a valid quantity');
-    return;
+// Add item to cart - requires authentication
+async function addToCart(productName, price) {
+  try {
+    // Check if user is authenticated
+    const authResponse = await fetch('/api/auth/me');
+    const authData = await authResponse.json();
+    
+    if (!authData.authenticated) {
+      alert('Please login to add items to cart. Redirecting to login page...');
+      window.location.href = '/HTML/login.html';
+      return;
+    }
+    
+    const quantity = prompt(`How many ${productName} would you like to add?`, '1');
+    
+    if (quantity === null) return; // User cancelled
+    
+    const qty = parseInt(quantity);
+    
+    if (isNaN(qty) || qty <= 0) {
+      alert('Please enter a valid quantity');
+      return;
+    }
+    
+    // Check if product already exists in cart
+    const existingItem = cart.find(item => item.name === productName);
+    
+    if (existingItem) {
+      existingItem.quantity += qty;
+    } else {
+      cart.push({
+        name: productName,
+        price: price,
+        quantity: qty
+      });
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Update cart count and display
+    updateCartCount();
+    displayCartItems();
+    
+    alert(`${qty} ${productName}(s) added to cart!`);
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    alert('An error occurred. Please try again.');
   }
-  
-  // Check if product already exists in cart
-  const existingItem = cart.find(item => item.name === productName);
-  
-  if (existingItem) {
-    existingItem.quantity += qty;
-  } else {
-    cart.push({
-      name: productName,
-      price: price,
-      quantity: qty
-    });
-  }
-  
-  // Save to localStorage
-  localStorage.setItem('cart', JSON.stringify(cart));
-  
-  // Update cart count and display
-  updateCartCount();
-  displayCartItems();
-  
-  alert(`${qty} ${productName}(s) added to cart!`);
 }
 
 // Update cart count in navigation
 function updateCartCount() {
   const count = cart.reduce((total, item) => total + item.quantity, 0);
-  document.getElementById('cart-count').textContent = count;
+  const badge = document.getElementById('cart-count');
+  if (badge) {
+    badge.textContent = count;
+  }
 }
 
 // Display cart items
 function displayCartItems() {
   const container = document.getElementById('cart-items-container');
+  const loginPrompt = document.getElementById('login-prompt');
   
   if (cart.length === 0) {
-    container.innerHTML = '<p id="empty-cart-message">Your cart is empty</p>';
+    if (loginPrompt) loginPrompt.style.display = 'none';
+    container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Your cart is empty</p>';
     document.getElementById('cart-total').textContent = '0';
     return;
   }
   
-  let html = '<table class="cart-table"><thead><tr><th>Product</th><th>Price</th><th>Quantity</th><th>Total</th><th>Action</th></tr></thead><tbody>';
+  if (loginPrompt) loginPrompt.style.display = 'none';
+  
+  let html = `
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+  `;
   let grandTotal = 0;
   
   cart.forEach((item, index) => {
@@ -61,22 +85,25 @@ function displayCartItems() {
     grandTotal += itemTotal;
     
     html += `
-      <tr>
-        <td>${item.name}</td>
-        <td>₦${item.price.toLocaleString()}</td>
-        <td>
-          <input type="number" min="1" value="${item.quantity}" 
-            onchange="updateQuantity(${index}, this.value)" class="qty-input">
-        </td>
-        <td>₦${itemTotal.toLocaleString()}</td>
-        <td>
-          <button onclick="removeFromCart(${index})" class="remove-btn">Remove</button>
-        </td>
-      </tr>
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
+          <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center;">
+            <input type="number" min="1" value="${item.quantity}" 
+              onchange="updateQuantity(${index}, this.value)" style="width: 60px; padding: 0.3rem; border: 1px solid #ddd; border-radius: 4px;">
+            <span style="color: #667eea; font-weight: 600;">Qty: ${item.quantity}</span>
+            <button onclick="removeFromCart(${index})" style="background: #ff6b6b; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Remove</button>
+          </div>
+        </div>
+        <div style="text-align: right; font-weight: bold; color: #667eea;">
+          ₦${itemTotal.toLocaleString()}
+        </div>
+      </div>
     `;
   });
   
-  html += '</tbody></table>';
+  html += '</div>';
   container.innerHTML = html;
   document.getElementById('cart-total').textContent = grandTotal.toLocaleString();
 }
@@ -108,14 +135,34 @@ function removeFromCart(index) {
 }
 
 // Toggle cart modal
-function toggleCart() {
-  const modal = document.getElementById('cart-modal');
-  
-  if (modal.style.display === 'block') {
-    modal.style.display = 'none';
-  } else {
-    modal.style.display = 'block';
-    displayCartItems();
+async function toggleCart() {
+  try {
+    // Check if user is authenticated
+    const authResponse = await fetch('/api/auth/me');
+    const authData = await authResponse.json();
+    
+    const modal = document.getElementById('cart-modal');
+    const loginPrompt = document.getElementById('login-prompt');
+    
+    if (modal.style.display === 'block') {
+      modal.style.display = 'none';
+    } else {
+      modal.style.display = 'block';
+      
+      if (!authData.authenticated) {
+        if (loginPrompt) {
+          loginPrompt.style.display = 'block';
+        }
+        document.getElementById('cart-items-container').innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Please login to view your cart</p>';
+      } else {
+        if (loginPrompt) {
+          loginPrompt.style.display = 'none';
+        }
+        displayCartItems();
+      }
+    }
+  } catch (error) {
+    console.error('Error toggling cart:', error);
   }
 }
 
@@ -190,7 +237,10 @@ async function checkout() {
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartCount();
       displayCartItems();
-      toggleCart();
+      
+      // Close cart modal
+      const modal = document.getElementById('cart-modal');
+      modal.style.display = 'none';
       
       // Redirect to account page
       setTimeout(() => {

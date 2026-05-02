@@ -4,22 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up - Mobola Store</title>
-  <link rel="stylesheet" href="../design/new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #333;
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #667eea;
+    }
+
     .auth-container {
-      max-width: 400px;
-      margin: 4rem auto;
-      padding: 2rem;
+      max-width: 500px;
+      margin: auto;
+      padding: 3rem;
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .auth-container h1 {
       text-align: center;
-      color: #25d366;
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    .auth-container p {
+      text-align: center;
+      color: #666;
       margin-bottom: 2rem;
-      font-size: 1.8rem;
+      font-size: 0.95rem;
     }
 
     .form-group {
@@ -28,9 +90,10 @@
 
     .form-group label {
       display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
+      margin-bottom: 0.7rem;
+      font-weight: 600;
       color: #333;
+      font-size: 0.95rem;
     }
 
     .password-wrapper {
@@ -41,160 +104,214 @@
 
     .form-group input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
       font-size: 1rem;
-      box-sizing: border-box;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
     }
 
     .form-group input:focus {
       outline: none;
-      border-color: #25d366;
-      box-shadow: 0 0 5px rgba(37, 211, 102, 0.3);
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
 
     .toggle-password {
       position: absolute;
-      right: 10px;
+      right: 15px;
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 1.2rem;
-      color: #25d366;
+      color: #667eea;
+      font-size: 1.1rem;
       padding: 5px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .toggle-password:hover {
-      color: #128c7e;
+      color: #764ba2;
+      transform: scale(1.1);
     }
 
     .btn-signup {
       width: 100%;
-      padding: 12px;
-      background-color: #25d366;
+      padding: 13px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
     }
 
     .btn-signup:hover {
-      background-color: #128c7e;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-signup:active {
+      transform: translateY(0);
     }
 
     .btn-signup:disabled {
-      background-color: #ccc;
+      background: #ccc;
       cursor: not-allowed;
+      transform: none;
     }
 
     .auth-link {
       text-align: center;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       color: #666;
     }
 
     .auth-link a {
-      color: #25d366;
+      color: #667eea;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
 
     .auth-link a:hover {
+      color: #764ba2;
       text-decoration: underline;
     }
 
     .error-message {
-      color: #ff4444;
-      background-color: #ffe6e6;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 1rem;
+      color: #d32f2f;
+      background-color: #ffebee;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
       display: none;
+      border-left: 4px solid #d32f2f;
+      animation: slideDown 0.3s ease-out;
     }
 
     .success-message {
-      color: #25d366;
-      background-color: #e6ffe6;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 1rem;
+      color: #388e3c;
+      background-color: #e8f5e9;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
       display: none;
+      border-left: 4px solid #388e3c;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .back-link {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .back-link a {
-      color: #25d366;
+      color: #667eea;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
     }
 
     .back-link a:hover {
-      text-decoration: underline;
+      gap: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: auto;
     }
   </style>
 </head>
 <body>
-  <nav class="nav-right">
-    <a href="/index.html">Home</a>
-    <a href="/HTML/shop.html">Shop</a>
-    <a href="/HTML/contact.html">Contact</a>
+  <nav>
+    <a href="/index.html" class="logo">
+      <i class="fas fa-store"></i> Mobola Store
+    </a>
+    <div>
+      <a href="/index.html">Home</a>
+      <a href="/HTML/shop.html">Shop</a>
+      <a href="/HTML/contact.html">Contact</a>
+    </div>
   </nav>
 
   <div class="auth-container">
     <div class="back-link">
-      <a href="/index.html">← Back to Home</a>
+      <a href="/index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
     </div>
 
-    <h1>📝 Create Account</h1>
+    <h1>Create Account</h1>
+    <p>Join us and start shopping today</p>
 
     <div id="error-message" class="error-message"></div>
     <div id="success-message" class="success-message"></div>
 
     <form id="signup-form">
       <div class="form-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required>
+        <label for="name"><i class="fas fa-user"></i> Full Name</label>
+        <input type="text" id="name" name="name" placeholder="John Doe" required>
       </div>
 
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>
+        <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required>
       </div>
 
       <div class="form-group">
-        <label for="phone">Phone Number</label>
+        <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
         <input type="tel" id="phone" name="phone" placeholder="08012345678">
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
         <div class="password-wrapper">
-          <input type="password" id="password" name="password" required>
-          <button type="button" class="toggle-password" id="toggle-password">👁️</button>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          <button type="button" class="toggle-password" id="toggle-password">
+            <i class="fas fa-eye"></i>
+          </button>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
+        <label for="confirm-password"><i class="fas fa-lock"></i> Confirm Password</label>
         <div class="password-wrapper">
-          <input type="password" id="confirm-password" name="confirm-password" required>
-          <button type="button" class="toggle-password" id="toggle-confirm-password">👁️</button>
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+          <button type="button" class="toggle-password" id="toggle-confirm-password">
+            <i class="fas fa-eye"></i>
+          </button>
         </div>
       </div>
 
-      <button type="submit" class="btn-signup" id="signup-btn">Create Account</button>
+      <button type="submit" class="btn-signup" id="signup-btn">
+        <i class="fas fa-user-plus"></i> Create Account
+      </button>
     </form>
 
     <div class="auth-link">
-      Already have an account? <a href="/HTML/login.html">Login here</a>
+      Already have an account? <a href="/HTML/login.html">Sign in here</a>
     </div>
   </div>
 
@@ -211,10 +328,10 @@
       e.preventDefault();
       if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        toggleBtn.textContent = '🙈';
+        toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
       } else {
         passwordInput.type = 'password';
-        toggleBtn.textContent = '👁️';
+        toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
       }
     });
 
@@ -222,10 +339,10 @@
       e.preventDefault();
       if (confirmPasswordInput.type === 'password') {
         confirmPasswordInput.type = 'text';
-        toggleConfirmBtn.textContent = '🙈';
+        toggleConfirmBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
       } else {
         confirmPasswordInput.type = 'password';
-        toggleConfirmBtn.textContent = '👁️';
+        toggleConfirmBtn.innerHTML = '<i class="fas fa-eye"></i>';
       }
     });
 
@@ -246,19 +363,19 @@
       successDiv.style.display = 'none';
 
       if (password !== confirmPassword) {
-        errorDiv.textContent = 'Passwords do not match';
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Passwords do not match';
         errorDiv.style.display = 'block';
         return;
       }
 
       if (password.length < 6) {
-        errorDiv.textContent = 'Password must be at least 6 characters';
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Password must be at least 6 characters';
         errorDiv.style.display = 'block';
         return;
       }
 
       signupBtn.disabled = true;
-      signupBtn.textContent = 'Creating Account...';
+      signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
 
       try {
         const response = await fetch('/api/auth/signup', {
@@ -272,23 +389,23 @@
         const data = await response.json();
 
         if (response.ok) {
-          successDiv.textContent = 'Account created successfully! Redirecting...';
+          successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Account created successfully! Redirecting...';
           successDiv.style.display = 'block';
           setTimeout(() => {
             window.location.href = '/index.html';
           }, 1500);
         } else {
-          errorDiv.textContent = data.error || 'Sign up failed. Please try again.';
+          errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.error || 'Sign up failed. Please try again.'}`;
           errorDiv.style.display = 'block';
           signupBtn.disabled = false;
-          signupBtn.textContent = 'Create Account';
+          signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
         }
       } catch (error) {
         console.error('Signup error:', error);
-        errorDiv.textContent = 'Connection error. Please check your internet and try again.';
+        errorDiv.innerHTML = '<i class="fas fa-wifi"></i> Connection error. Please check your internet and try again.';
         errorDiv.style.display = 'block';
         signupBtn.disabled = false;
-        signupBtn.textContent = 'Create Account';
+        signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
       }
     });
   </script>
