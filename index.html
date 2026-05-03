@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mobola Store - Premium Products</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://accounts.google.com/gsi/style" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,8 +15,255 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      color: #333;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+      color: #2c3e50;
+      overflow-x: hidden;
+    }
+
+    /* Auth Modal */
+    .auth-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeInModal 0.3s ease-out;
+    }
+
+    @keyframes fadeInModal {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .auth-modal.hidden {
+      display: none;
+    }
+
+    .auth-modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUpModal 0.4s ease-out;
+      position: relative;
+    }
+
+    @keyframes slideUpModal {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .auth-modal-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .auth-modal-header h2 {
+      font-size: 1.8rem;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+
+    .auth-modal-header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #999;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .auth-tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .password-input-wrapper {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #667eea;
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .auth-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .google-signin {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    .google-signin-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .google-signin-button:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 1.5rem 0;
+      color: #999;
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: #e9ecef;
+    }
+
+    .divider span {
+      background: white;
+      padding: 0 1rem;
+      position: relative;
+    }
+
+    .skip-button {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .skip-button button {
+      background: none;
+      border: none;
+      color: #667eea;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      text-decoration: underline;
+    }
+
+    .skip-button button:hover {
+      color: #764ba2;
     }
 
     /* Navigation Bar */
@@ -136,15 +384,6 @@
       box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
     /* Main Content */
     .container {
       max-width: 1200px;
@@ -156,8 +395,9 @@
       text-align: center;
       font-size: 2rem;
       margin-bottom: 3rem;
-      color: #333;
+      color: #2c3e50;
       animation: slideUp 0.5s ease-out;
+      font-weight: 700;
     }
 
     @keyframes slideUp {
@@ -230,6 +470,8 @@
       font-weight: 600;
       transition: all 0.3s ease;
       margin: 0 1rem 1rem;
+      border: none;
+      cursor: pointer;
     }
 
     .know-more-btn:hover {
@@ -304,329 +546,352 @@
       transform: translateX(5px);
     }
 
-    /* Cart Modal */
-    .cart-modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .cart-modal-content {
-      background-color: white;
-      margin: 5% auto;
-      padding: 2rem;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 500px;
-      max-height: 70vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      animation: slideUp 0.3s ease-out;
-    }
-
-    .close-cart {
-      color: #666;
-      float: right;
-      font-size: 2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .close-cart:hover {
-      color: #667eea;
-    }
-
-    .cart-modal-content h2 {
-      color: #667eea;
-      margin-bottom: 1.5rem;
-    }
-
-    .cart-item {
-      background: #f8f9fa;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    .cart-item-info {
-      flex: 1;
-    }
-
-    .cart-item-name {
-      font-weight: bold;
-      color: #333;
-    }
-
-    .cart-item-price {
-      color: #667eea;
-      font-weight: 600;
-    }
-
-    .cart-summary {
-      background: #f8f9fa;
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
-    .cart-summary h3 {
-      color: #333;
-      margin-bottom: 1rem;
-      font-size: 1.3rem;
-    }
-
-    .checkout-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      transition: all 0.3s ease;
-      font-size: 1rem;
-    }
-
-    .checkout-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-    }
-
-    .checkout-btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .login-prompt {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      color: #856404;
-      animation: slideDown 0.3s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
     /* Footer */
     footer {
-      background: #333;
+      background: #2c3e50;
       color: white;
       text-align: center;
       padding: 2rem;
       margin-top: 4rem;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
       nav .nav-links {
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
+        gap: 1rem;
       }
 
       .top h1 {
         font-size: 1.8rem;
       }
 
-      .image-row {
-        grid-template-columns: 1fr;
+      .our {
+        font-size: 1.5rem;
       }
 
-      .cart-modal-content {
-        width: 95%;
-        margin: 20% auto;
+      .auth-modal-content {
+        padding: 2rem;
       }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/index.html" class="logo">
-      <i class="fas fa-store"></i> Mobola Store
-    </a>
-    <div class="nav-links">
-      <a href="/index.html"><i class="fas fa-home"></i> Home</a>
-      <a href="/HTML/shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
-      <a href="/HTML/contact.html"><i class="fas fa-phone"></i> Contact</a>
-      <a href="javascript:void(0);" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="cart-count">0</span>
-      </a>
-      <a id="auth-link" href="/HTML/login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
-      <a id="account-link" href="/HTML/account.html" style="display: none;"><i class="fas fa-user"></i> Account</a>
-      <a id="logout-link" href="javascript:void(0);" onclick="logoutUser()" style="display: none;"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-  </nav>
+  <!-- Auth Modal -->
+  <div class="auth-modal" id="authModal">
+    <div class="auth-modal-content">
+      <div class="auth-modal-header">
+        <h2>Welcome to Mobola Store</h2>
+        <p>Sign up or log in to get the full experience</p>
+      </div>
 
-  <header class="top">
-    <img src="/images/logo.png" alt="logo" class="logo">
-    <h1>Your one-stop shop for kitchen and daily provisions</h1>
-    <p>Quality products at affordable prices 💵</p>
-    <div class="whatsapp1">
-      <a href="https://wa.me/2348036795122?text=Hello%20I%20saw%20your%20website%20and%20want%20to%20know%20more" target="_blank">
-        <i class="fas fa-comments"></i> Chat with us on WhatsApp
-      </a>
-    </div>
-  </header>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+      </div>
 
-  <main class="container">
-    <h1 class="our">Our Products</h1>
-    <div class="image-row">
-      <div class="image-item">
-        <img src="/images/kitchen utensil.jpg" alt="kitchen">
-        <p><strong>KITCHEN UTENSIL</strong></p>
-        <p>Pots, frypans, spoons, gas cookers etc</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20kitchen%20utensils%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
-      </div>
-      <div class="image-item">
-        <img src="/images/snacks.jpg" alt="snacks">
-        <p><strong>SNACKS</strong></p>
-        <p>Cookies, cakes, soft drinks, pastries, wine</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20snacks%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
-      </div>
-      <div class="image-item">
-        <img src="/images/foodstuff.jpeg" alt="foodstuff">
-        <p><strong>FOOD STUFF</strong></p>
-        <p>Rice, beans, garri, vegetable & palm oil, spices</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20food%20stuff%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
-      </div>
-      <div class="image-item">
-        <img src="/images/zobo.jpg" alt="provision">
-        <p><strong>Zobo Drink</strong></p>
-        <p>Sweet chilled zobo drink 🍷</p>
-        <a href="https://wa.me/2348036795122?text=Hi,%20i%20am%20from%20your%20website%20and%20i%20want%20to%20know%20more%20about%20the%20zobo%20drink%20from%20Mobola%20store" target="_blank" class="know-more-btn">Know More</a>
-      </div>
-    </div>
-  </main>
+      <!-- Login Form -->
+      <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" placeholder="Enter your password" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="auth-button">Login</button>
+      </form>
 
-  <section class="bottom">
-    <h1>Why Choose Us</h1>
-    <p><i class="fas fa-check-circle"></i> Affordable prices</p>
-    <p><i class="fas fa-check-circle"></i> Quality products</p>
-    <p><i class="fas fa-check-circle"></i> Fast response</p>
-    <p><i class="fas fa-check-circle"></i> Delivers nationwide</p>
-    <p><i class="fas fa-check-circle"></i> Friendly customer service</p>
-  </section>
+      <!-- Signup Form -->
+      <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" placeholder="Create a password" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" placeholder="Confirm your password" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="auth-button">Sign Up</button>
+      </form>
 
-  <section class="contact-card">
-    <h2><i class="fas fa-map-marker-alt"></i> Contact Us</h2>
-    <p><strong>Address:</strong> Onaselu, Gberigbe, Ikorodu, Lagos</p>
-    
-    <p><strong>Phone:</strong></p>
-    <ul>
-      <li>
-        <a href="https://wa.me/2348036795122?text=Hello%20I%20saw%20your%20website%20and%20want%20to%20know%20more" target="_blank">
-          <i class="fab fa-whatsapp"></i> 08036795122
-        </a>
-      </li>
-      <li>
-        <a href="https://wa.me/2347041829634?text=Hello%20I%20saw%20your%20website%20and%20want%20to%20know%20more" target="_blank">
-          <i class="fab fa-whatsapp"></i> 07041829634
-        </a>
-      </li>
-    </ul>
-    
-    <p><strong>Email:</strong></p>
-    <p>
-      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mobolakitchenutensils@gmail.com" target="_blank">
-        <i class="fas fa-envelope"></i> mobolakitchenutensils@gmail.com
-      </a>
-    </p>
-  </section>
+      <!-- Google Sign In -->
+      <div class="divider">
+        <span>Or continue with</span>
+      </div>
 
-  <!-- Cart Modal -->
-  <div id="cart-modal" class="cart-modal">
-    <div class="cart-modal-content">
-      <span class="close-cart" onclick="toggleCart()">&times;</span>
-      <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
-      <div id="login-prompt" class="login-prompt" style="display: none;">
-        <i class="fas fa-info-circle"></i> Please <a href="/HTML/login.html" style="color: #856404; font-weight: bold;">login</a> to add items to cart
+      <div class="google-signin">
+        <button class="google-signin-button" onclick="handleGoogleSignIn()">
+          <i class="fab fa-google"></i>
+          Sign in with Google
+        </button>
       </div>
-      <div id="cart-items-container">
-        <p id="empty-cart-message" style="text-align: center; color: #666;">Your cart is empty</p>
-      </div>
-      <div class="cart-summary">
-        <h3>Total: ₦<span id="cart-total">0</span></h3>
-        <button class="checkout-btn" id="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+
+      <!-- Skip Button -->
+      <div class="skip-button">
+        <button onclick="skipAuth()">Skip for now</button>
       </div>
     </div>
   </div>
 
-  <footer><p>&copy; 2026 Mobola Stores. All rights reserved.</p></footer>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="logo">
+      <i class="fas fa-store"></i> Mobola Store
+    </a>
+    <div class="nav-links">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
+      <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="HTML/account.html" id="accountLink" style="display:none;"><i class="fas fa-user"></i> Account</a>
+      <a href="HTML/login.html" id="loginLink"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a href="#" onclick="logout()" id="logoutLink" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      <a href="#" onclick="viewCart()"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="cartCount">0</span></a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="top">
+    <img src="design/logo.png" alt="Mobola Logo" class="logo">
+    <h1>Welcome to Mobola Store</h1>
+    <p>Your one-stop shop for premium kitchen, snacks, foodstuff, and drinks</p>
+    <div class="whatsapp1">
+      <a href="https://wa.me/2349011111111" target="_blank">
+        <i class="fab fa-whatsapp"></i> Chat with us on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2 class="our">Our Products</h2>
+    <div class="image-row" id="productGrid">
+      <!-- Products will be loaded here -->
+    </div>
+  </div>
+
+  <!-- Why Choose Us -->
+  <div class="container">
+    <div class="bottom">
+      <h1>Why Choose Mobola Store?</h1>
+      <p><i class="fas fa-check-circle"></i> Premium Quality Products</p>
+      <p><i class="fas fa-check-circle"></i> Fast & Reliable Delivery</p>
+      <p><i class="fas fa-check-circle"></i> Best Prices Guaranteed</p>
+      <p><i class="fas fa-check-circle"></i> 24/7 Customer Support</p>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="container">
+    <div class="contact-card">
+      <h2><i class="fas fa-phone"></i> Get in Touch</h2>
+      <p>Have questions? We're here to help!</p>
+      <ul>
+        <li><strong>WhatsApp:</strong> <a href="https://wa.me/2349011111111" target="_blank"><i class="fab fa-whatsapp"></i> +234 901 111 1111</a></li>
+        <li><strong>Email:</strong> <a href="mailto:mobola853@gmail.com"><i class="fas fa-envelope"></i> mobola853@gmail.com</a></li>
+        <li><strong>Hours:</strong> Monday - Sunday, 9:00 AM - 6:00 PM</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Mobola Store. All rights reserved.</p>
+  </footer>
 
   <script>
-    // Check authentication status on page load
-    async function checkAuthStatus() {
-      try {
-        const response = await fetch('/api/auth/me');
-        const data = await response.json();
-        
-        const authLink = document.getElementById('auth-link');
-        const accountLink = document.getElementById('account-link');
-        const logoutLink = document.getElementById('logout-link');
-        
-        if (data.authenticated) {
-          authLink.style.display = 'none';
-          accountLink.style.display = 'inline-flex';
-          logoutLink.style.display = 'inline-flex';
-          window.isAuthenticated = true;
-        } else {
-          authLink.style.display = 'inline-flex';
-          accountLink.style.display = 'none';
-          logoutLink.style.display = 'none';
-          window.isAuthenticated = false;
-        }
-      } catch (error) {
-        console.error('Error checking auth status:', error);
+    // Check if user is logged in on page load
+    window.addEventListener('load', function() {
+      checkAuthStatus();
+      loadProducts();
+      updateCartCount();
+    });
+
+    function checkAuthStatus() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      const userName = localStorage.getItem('userName');
+      
+      if (isLoggedIn === 'true') {
+        document.getElementById('authModal').classList.add('hidden');
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('logoutLink').style.display = 'flex';
+        document.getElementById('accountLink').style.display = 'flex';
+      } else {
+        document.getElementById('authModal').classList.remove('hidden');
       }
     }
-    
-    // Logout user
-    async function logoutUser() {
-      try {
-        const response = await fetch('/api/auth/logout', { method: 'POST' });
-        const data = await response.json();
-        if (data.success) {
-          window.location.href = '/index.html';
-        }
-      } catch (error) {
-        console.error('Error logging out:', error);
-        alert('Error logging out. Please try again.');
+
+    function switchAuthTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(tab + 'Form').classList.add('active');
+    }
+
+    function togglePasswordVisibility(button) {
+      const input = button.parentElement.querySelector('input');
+      const icon = button.querySelector('i');
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
       }
     }
-    
-    // Check auth status when page loads
-    window.addEventListener('load', checkAuthStatus);
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      const password = event.target.querySelector('input[type="password"]').value;
+      
+      // Simulate login
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userName', email.split('@')[0]);
+      
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('logoutLink').style.display = 'flex';
+      document.getElementById('accountLink').style.display = 'flex';
+    }
+
+    function handleSignup(event) {
+      event.preventDefault();
+      const name = event.target.querySelector('input[type="text"]').value;
+      const email = event.target.querySelectorAll('input[type="email"]')[0].value;
+      
+      // Simulate signup
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userName', name);
+      
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('logoutLink').style.display = 'flex';
+      document.getElementById('accountLink').style.display = 'flex';
+    }
+
+    function handleGoogleSignIn() {
+      // Simulate Google Sign In
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userName', 'Google User');
+      localStorage.setItem('userEmail', 'user@gmail.com');
+      
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('logoutLink').style.display = 'flex';
+      document.getElementById('accountLink').style.display = 'flex';
+    }
+
+    function skipAuth() {
+      document.getElementById('authModal').classList.add('hidden');
+      localStorage.setItem('userSkipped', 'true');
+    }
+
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('cart');
+      
+      document.getElementById('loginLink').style.display = 'flex';
+      document.getElementById('logoutLink').style.display = 'none';
+      document.getElementById('accountLink').style.display = 'none';
+      document.getElementById('authModal').classList.remove('hidden');
+      
+      location.reload();
+    }
+
+    function loadProducts() {
+      const products = [
+        { id: 1, name: 'Kitchen Utensils', category: 'Kitchen', image: 'design/kitchen.jpg', price: '₦2,500' },
+        { id: 2, name: 'Snack Packs', category: 'Snacks', image: 'design/snacks.jpg', price: '₦1,500' },
+        { id: 3, name: 'Foodstuff Bundle', category: 'Foodstuff', image: 'design/foodstuff.jpg', price: '₦5,000' },
+        { id: 4, name: 'Zobo Drink', category: 'Drinks', image: 'design/zobo.jpg', price: '₦800' },
+      ];
+
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = products.map(product => `
+        <div class="image-item">
+          <img src="${product.image}" alt="${product.name}">
+          <p>${product.name}</p>
+          <p>${product.category}</p>
+          <p style="color: #667eea; font-weight: bold;">${product.price}</p>
+          <button class="know-more-btn" onclick="addToCart(${product.id}, '${product.name}', '${product.price}')">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function addToCart(id, name, price) {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      
+      if (!isLoggedIn) {
+        alert('Please login or sign up to add items to cart');
+        document.getElementById('authModal').classList.remove('hidden');
+        return;
+      }
+
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const item = cart.find(item => item.id === id);
+      
+      if (item) {
+        item.quantity++;
+      } else {
+        cart.push({ id, name, price, quantity: 1 });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert(`${name} added to cart!`);
+    }
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').textContent = count;
+    }
+
+    function viewCart() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      
+      if (!isLoggedIn) {
+        alert('Please login to view your cart');
+        document.getElementById('authModal').classList.remove('hidden');
+        return;
+      }
+
+      // Redirect to cart page or show cart modal
+      window.location.href = 'cart.html';
+    }
   </script>
-  <script src="/cart.js"></script>
 </body>
 </html>
