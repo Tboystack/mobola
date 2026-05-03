@@ -17,24 +17,49 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+    }
+
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      padding: 2rem;
+      backdrop-filter: blur(10px);
     }
 
-    .signup-container {
-      background: white;
-      border-radius: 20px;
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #333;
+      text-decoration: none;
+      margin-left: 2rem;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #667eea;
+    }
+
+    .auth-container {
+      max-width: 500px;
+      margin: auto;
       padding: 3rem;
-      max-width: 450px;
-      width: 100%;
+      background: white;
+      border-radius: 15px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      animation: slideUpModal 0.4s ease-out;
-      max-height: 90vh;
-      overflow-y: auto;
+      animation: slideUp 0.5s ease-out;
     }
 
-    @keyframes slideUpModal {
+    @keyframes slideUp {
       from {
         opacity: 0;
         transform: translateY(30px);
@@ -45,19 +70,17 @@
       }
     }
 
-    .signup-header {
+    .auth-container h1 {
       text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .signup-header h2 {
-      font-size: 1.8rem;
-      color: #667eea;
+      color: #333;
       margin-bottom: 0.5rem;
+      font-size: 2rem;
     }
 
-    .signup-header p {
+    .auth-container p {
+      text-align: center;
       color: #666;
+      margin-bottom: 2rem;
       font-size: 0.95rem;
     }
 
@@ -67,61 +90,58 @@
 
     .form-group label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.7rem;
       font-weight: 600;
-      color: #2c3e50;
+      color: #333;
       font-size: 0.95rem;
     }
 
-    .form-group input {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    .password-input-wrapper {
+    .password-wrapper {
       position: relative;
       display: flex;
       align-items: center;
     }
 
-    .password-input-wrapper input {
+    .form-group input {
       width: 100%;
-      padding-right: 3rem;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
     }
 
-    .password-toggle {
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .toggle-password {
       position: absolute;
-      right: 1rem;
+      right: 15px;
       background: none;
       border: none;
       cursor: pointer;
       color: #667eea;
-      font-size: 1.2rem;
-      padding: 0.5rem;
+      font-size: 1.1rem;
+      padding: 5px;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 10;
     }
 
-    .password-toggle:hover {
+    .toggle-password:hover {
       color: #764ba2;
+      transform: scale(1.1);
     }
 
-    .signup-button {
+    .btn-signup {
       width: 100%;
-      padding: 1rem;
+      padding: 13px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
@@ -130,106 +150,61 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-bottom: 1rem;
+      margin-top: 1rem;
     }
 
-    .signup-button:hover {
+    .btn-signup:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
     }
 
-    .divider {
-      text-align: center;
-      margin: 1.5rem 0;
-      color: #999;
-      position: relative;
+    .btn-signup:active {
+      transform: translateY(0);
     }
 
-    .divider::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100%;
-      height: 1px;
-      background: #e9ecef;
+    .btn-signup:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .divider span {
-      background: white;
-      padding: 0 1rem;
-      position: relative;
-    }
-
-    .google-signup-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.8rem 1.5rem;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
-      background: white;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      width: 100%;
-      font-size: 1rem;
-    }
-
-    .google-signup-button:hover {
-      border-color: #667eea;
-      background: #f8f9ff;
-    }
-
-    .login-link {
+    .auth-link {
       text-align: center;
       margin-top: 1.5rem;
       color: #666;
     }
 
-    .login-link a {
+    .auth-link a {
       color: #667eea;
       text-decoration: none;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: color 0.3s ease;
     }
 
-    .login-link a:hover {
+    .auth-link a:hover {
       color: #764ba2;
-    }
-
-    .back-link {
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .back-link a {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .back-link a:hover {
-      color: #764ba2;
+      text-decoration: underline;
     }
 
     .error-message {
-      background: #fee;
-      color: #c33;
-      padding: 1rem;
+      color: #d32f2f;
+      background-color: #ffebee;
+      padding: 12px 15px;
       border-radius: 8px;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       display: none;
-      border-left: 4px solid #c33;
+      border-left: 4px solid #d32f2f;
+      animation: slideDown 0.3s ease-out;
     }
 
-    .error-message.show {
-      display: block;
+    .success-message {
+      color: #388e3c;
+      background-color: #e8f5e9;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: none;
+      border-left: 4px solid #388e3c;
       animation: slideDown 0.3s ease-out;
     }
 
@@ -243,137 +218,196 @@
         transform: translateY(0);
       }
     }
+
+    .back-link {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .back-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .back-link a:hover {
+      gap: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: auto;
+    }
   </style>
 </head>
 <body>
-  <div class="signup-container">
-    <div class="signup-header">
-      <h2>Create Account</h2>
-      <p>Join Mobola Store and start shopping</p>
+  <nav>
+    <a href="/index.html" class="logo">
+      <i class="fas fa-store"></i> Mobola Store
+    </a>
+    <div>
+      <a href="/index.html">Home</a>
+      <a href="/HTML/shop.html">Shop</a>
+      <a href="/HTML/contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div class="auth-container">
+    <div class="back-link">
+      <a href="/index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
     </div>
 
-    <div class="error-message" id="errorMessage"></div>
+    <h1>Create Account</h1>
+    <p>Join us and start shopping today</p>
 
-    <form onsubmit="handleSignup(event)">
+    <div id="error-message" class="error-message"></div>
+    <div id="success-message" class="success-message"></div>
+
+    <form id="signup-form">
       <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" placeholder="Enter your full name" required>
+        <label for="name"><i class="fas fa-user"></i> Full Name</label>
+        <input type="text" id="name" name="name" placeholder="John Doe" required>
       </div>
 
       <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" placeholder="Enter your email" required>
+        <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required>
       </div>
 
       <div class="form-group">
-        <label>Password</label>
-        <div class="password-input-wrapper">
-          <input type="password" placeholder="Create a password" required>
-          <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+        <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="08012345678">
+      </div>
+
+      <div class="form-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          <button type="button" class="toggle-password" id="toggle-password">
             <i class="fas fa-eye"></i>
           </button>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Confirm Password</label>
-        <div class="password-input-wrapper">
-          <input type="password" placeholder="Confirm your password" required>
-          <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+        <label for="confirm-password"><i class="fas fa-lock"></i> Confirm Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+          <button type="button" class="toggle-password" id="toggle-confirm-password">
             <i class="fas fa-eye"></i>
           </button>
         </div>
       </div>
 
-      <button type="submit" class="signup-button">
+      <button type="submit" class="btn-signup" id="signup-btn">
         <i class="fas fa-user-plus"></i> Create Account
       </button>
     </form>
 
-    <div class="divider">
-      <span>Or sign up with</span>
-    </div>
-
-    <button type="button" class="google-signup-button" onclick="handleGoogleSignUp()">
-      <i class="fab fa-google"></i>
-      Sign up with Google
-    </button>
-
-    <div class="login-link">
-      Already have an account? <a href="login.html">Login here</a>
-    </div>
-
-    <div class="back-link">
-      <a href="../index.html">
-        <i class="fas fa-arrow-left"></i> Back to Home
-      </a>
+    <div class="auth-link">
+      Already have an account? <a href="/HTML/login.html">Sign in here</a>
     </div>
   </div>
 
-  <script>
-    function togglePasswordVisibility(button) {
-      const input = button.parentElement.querySelector('input');
-      const icon = button.querySelector('i');
-      
-      if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-      } else {
-        input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-      }
-    }
+  <footer><p>&copy; 2026 Mobola Stores. All rights reserved.</p></footer>
 
-    function handleSignup(event) {
-      event.preventDefault();
-      const form = event.target;
-      const name = form.querySelector('input[type="text"]').value;
-      const email = form.querySelector('input[type="email"]').value;
-      const password = form.querySelectorAll('input[type="password"]')[0].value;
-      const confirmPassword = form.querySelectorAll('input[type="password"]')[1].value;
-      
-      if (!name || !email || !password || !confirmPassword) {
-        showError('Please fill in all fields');
-        return;
+  <script>
+    // Toggle password visibility
+    const toggleBtn = document.getElementById('toggle-password');
+    const toggleConfirmBtn = document.getElementById('toggle-confirm-password');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
       }
+    });
+
+    toggleConfirmBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirmPasswordInput.type === 'password') {
+        confirmPasswordInput.type = 'text';
+        toggleConfirmBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+      } else {
+        confirmPasswordInput.type = 'password';
+        toggleConfirmBtn.innerHTML = '<i class="fas fa-eye"></i>';
+      }
+    });
+
+    // Sign up form submission
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const errorDiv = document.getElementById('error-message');
+      const successDiv = document.getElementById('success-message');
+      const signupBtn = document.getElementById('signup-btn');
+
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
 
       if (password !== confirmPassword) {
-        showError('Passwords do not match');
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Passwords do not match';
+        errorDiv.style.display = 'block';
         return;
       }
 
       if (password.length < 6) {
-        showError('Password must be at least 6 characters');
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Password must be at least 6 characters';
+        errorDiv.style.display = 'block';
         return;
       }
 
-      // Simulate signup
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userName', name);
-      
-      window.location.href = '../index.html';
-    }
+      signupBtn.disabled = true;
+      signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
 
-    function handleGoogleSignUp() {
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userName', 'Google User');
-      localStorage.setItem('userEmail', 'user@gmail.com');
-      
-      window.location.href = '../index.html';
-    }
+      try {
+        const response = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, phone, password })
+        });
 
-    function showError(message) {
-      const errorDiv = document.getElementById('errorMessage');
-      errorDiv.textContent = message;
-      errorDiv.classList.add('show');
-      
-      setTimeout(() => {
-        errorDiv.classList.remove('show');
-      }, 3000);
-    }
+        const data = await response.json();
+
+        if (response.ok) {
+          successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Account created successfully! Redirecting...';
+          successDiv.style.display = 'block';
+          setTimeout(() => {
+            window.location.href = '/index.html';
+          }, 1500);
+        } else {
+          errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.error || 'Sign up failed. Please try again.'}`;
+          errorDiv.style.display = 'block';
+          signupBtn.disabled = false;
+          signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+        }
+      } catch (error) {
+        console.error('Signup error:', error);
+        errorDiv.innerHTML = '<i class="fas fa-wifi"></i> Connection error. Please check your internet and try again.';
+        errorDiv.style.display = 'block';
+        signupBtn.disabled = false;
+        signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+      }
+    });
   </script>
 </body>
 </html>

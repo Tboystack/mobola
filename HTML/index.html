@@ -4,16 +4,379 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mobola Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/design/new.css">
+  <style>
+    /* Auth Modal Styles */
+    .auth-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeInModal 0.3s ease-out;
+    }
+
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .auth-modal.hidden {
+      display: none;
+    }
+
+    .auth-modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUpModal 0.4s ease-out;
+      position: relative;
+    }
+
+    @keyframes slideUpModal {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .auth-modal-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .auth-modal-header h2 {
+      font-size: 1.8rem;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+
+    .auth-modal-header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #999;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .auth-tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .password-input-wrapper {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #667eea;
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .auth-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .google-signin {
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    .google-signin-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .google-signin-button:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 1.5rem 0;
+      color: #999;
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: #e9ecef;
+    }
+
+    .divider span {
+      background: white;
+      padding: 0 1rem;
+      position: relative;
+    }
+
+    .skip-button {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .skip-button button {
+      background: none;
+      border: none;
+      color: #667eea;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      text-decoration: underline;
+    }
+
+    .skip-button button:hover {
+      color: #764ba2;
+    }
+
+    /* Updated Navigation */
+    .nav-right {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .nav-right a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-right a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    #accountLink {
+      display: none;
+    }
+
+    #logoutLink {
+      display: none;
+    }
+  </style>
 </head>
 <body>
+  <!-- Auth Modal -->
+  <div class="auth-modal" id="authModal">
+    <div class="auth-modal-content">
+      <div class="auth-modal-header">
+        <h2>Welcome to Mobola Store</h2>
+        <p>Sign up or log in to get the full experience</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" placeholder="Enter your password" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="auth-button">Login</button>
+      </form>
+
+      <!-- Signup Form -->
+      <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" placeholder="Create a password" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" placeholder="Confirm your password" required>
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility(this)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="auth-button">Sign Up</button>
+      </form>
+
+      <!-- Google Sign In -->
+      <div class="divider">
+        <span>Or continue with</span>
+      </div>
+
+      <div class="google-signin">
+        <button type="button" class="google-signin-button" onclick="handleGoogleSignIn()">
+          <i class="fab fa-google"></i>
+          Sign in with Google
+        </button>
+      </div>
+
+      <!-- Skip Button -->
+      <div class="skip-button">
+        <button type="button" onclick="skipAuth()">Skip for now</button>
+      </div>
+    </div>
+  </div>
+
   <nav class="nav-right">
-    <a href="/HTML/index.html">Home</a>
-    <a href="/HTML/shop.html">Shop</a>
-    <a href="/HTML/product.html">Product Gallery</a>
-    <a href="/HTML/gallery.html">Gallery</a>
-    <a href="/HTML/contact.html">Contact</a>
-    <a href="javascript:void(0);" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
+    <a href="/HTML/index.html">🏠 Home</a>
+    <a href="/HTML/shop.html">🛍️ Shop</a>
+    <a href="/HTML/product.html">📸 Gallery</a>
+    <a href="/HTML/contact.html">📞 Contact</a>
+    <a href="/HTML/account.html" id="accountLink">👤 Account</a>
+    <a href="javascript:void(0);" onclick="handleLoginClick()" id="loginLink">🔐 Login</a>
+    <a href="javascript:void(0);" onclick="logout()" id="logoutLink">🚪 Logout</a>
+    <a href="javascript:void(0);" onclick="handleAddToCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
   </nav>
 
   <header class="top">
@@ -110,5 +473,126 @@
   <footer><p>&copy; 2026 Mobola Stores. All rights reserved.</p></footer>
 
   <script src="/cart.js"></script>
+  <script>
+    // Check if user is logged in on page load
+    window.addEventListener('load', function() {
+      checkAuthStatus();
+      updateCartCount();
+    });
+
+    function checkAuthStatus() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      
+      if (isLoggedIn === 'true') {
+        document.getElementById('authModal').classList.add('hidden');
+        document.getElementById('loginLink').style.display = 'none';
+        document.getElementById('logoutLink').style.display = 'flex';
+        document.getElementById('accountLink').style.display = 'flex';
+      } else {
+        document.getElementById('authModal').classList.remove('hidden');
+      }
+    }
+
+    function switchAuthTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(tab + 'Form').classList.add('active');
+    }
+
+    function togglePasswordVisibility(button) {
+      const input = button.parentElement.querySelector('input');
+      const icon = button.querySelector('i');
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      const password = event.target.querySelector('input[type="password"]').value;
+      
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userName', email.split('@')[0]);
+      
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('logoutLink').style.display = 'flex';
+      document.getElementById('accountLink').style.display = 'flex';
+    }
+
+    function handleSignup(event) {
+      event.preventDefault();
+      const name = event.target.querySelector('input[type="text"]').value;
+      const email = event.target.querySelectorAll('input[type="email"]')[0].value;
+      
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userName', name);
+      
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('logoutLink').style.display = 'flex';
+      document.getElementById('accountLink').style.display = 'flex';
+    }
+
+    function handleGoogleSignIn() {
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userName', 'Google User');
+      localStorage.setItem('userEmail', 'user@gmail.com');
+      
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('logoutLink').style.display = 'flex';
+      document.getElementById('accountLink').style.display = 'flex';
+    }
+
+    function skipAuth() {
+      document.getElementById('authModal').classList.add('hidden');
+      localStorage.setItem('userSkipped', 'true');
+    }
+
+    function handleLoginClick() {
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+
+    function handleAddToCart() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      if (isLoggedIn === 'true') {
+        toggleCart();
+      } else {
+        alert('Please login or signup to add items to your cart');
+        document.getElementById('authModal').classList.remove('hidden');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('cart');
+      
+      document.getElementById('loginLink').style.display = 'flex';
+      document.getElementById('logoutLink').style.display = 'none';
+      document.getElementById('accountLink').style.display = 'none';
+      
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cart-count').textContent = cart.length;
+    }
+  </script>
 </body>
 </html>
